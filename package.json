@@ -15,7 +15,8 @@
     "onLanguage:markdown",
     "onCommand:markdown.showPreview",
     "onCommand:markdown.showPreviewToSide",
-    "onCommand:markdown.showSource"
+    "onCommand:markdown.showSource",
+    "onCommand:markdown.showHtml"
   ],
   "contributes": {
     "languages": [
@@ -68,6 +69,11 @@
           "light": "./media/ViewSource.svg",
           "dark": "./media/ViewSource_inverse.svg"
         }
+      },
+      {
+        "command": "markdown.showHtml",
+        "title": "🌸 Show HTML Source",
+        "category": "Markdown"
       }
     ],
     "menus": {

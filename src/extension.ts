@@ -124,6 +124,15 @@ export function activate(context: vscode.ExtensionContext) {
 				});
 		}
 	}));
+
+	context.subscriptions.push(vscode.commands.registerCommand('markdown.showHtml', () => {
+		let buf: any = contentProvider.provideTextDocumentContent(getMarkdownUri(vscode.window.activeTextEditor!.document.uri));
+		let fsPath: string = vscode.window.activeTextEditor!.document.uri.fsPath;
+		let MDOutputChannel = vscode.window.createOutputChannel('Markdown: ' + fsPath);
+		MDOutputChannel.clear();
+		MDOutputChannel.show(true);	
+		MDOutputChannel.append(buf["_value"].toString() + '\n');
+	}));
 }
 
 
