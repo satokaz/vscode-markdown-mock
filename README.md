@@ -13,7 +13,13 @@ $ code .
 - vscode に組み込まれている markdown extension を上書きします
 - Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです(変更点はこれだけ)
 
-# 切り出し方
+# ちょっと追加してあるもの
+
+- サンプルで `Markdown: 🌸 Show HTML Source` コマンドを追加しています
+- Markdown エディタ上で、コマンドを実行すると、OUTPUT チャネルが生成され HTML にレンダリングされた内容が出力されます
+
+
+## 切り出し方
 
 - vscode を clone
 - extension/markdown を適当な場所にコピー
@@ -23,7 +29,7 @@ $ code .
 - Git リポジトリの初期化
 
 
-## package.json の編集
+### package.json の編集
 - package.json の aiKey を削除
 - "scripts" を入れ替え、
 
@@ -62,19 +68,19 @@ $ code .
 ```
 
 
-## npm install 
+### npm install 
 - npm install -SD vscode
 - npm install
 
 
-## Reload Windows
+### Reload Windows
 
-## extension.js の編集
+### extension.js の編集
 
 - telemetryReporter 関連をつぶす
 - IPackageInfo 関連をつぶす 
 
-## Debug: Open launch.json を実行
+### Debug: Open launch.json を実行
 
 - .vscode/launch.json が作成される
 - launch.json の中身を下記と入れ替える
@@ -103,7 +109,7 @@ $ code .
 }
 ```
 
-## task runner の構成
+### task runner の構成
 
 - `Tasks: Configure Task Runner` を実行
 - npm を選択して、中身を下記に入れ替える
