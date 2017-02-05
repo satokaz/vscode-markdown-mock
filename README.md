@@ -4,8 +4,14 @@
 - vscode の source tree から Markdown Extension を切り出したものです
 - 勉強用途やオレオレ Markdown プレビューなどを作成する場合に参考になります
 - clone して、npm install を実行後、F5 キーを押せばすぐに動かすことができます(できるはず)
+```bash
+$ git clone https://github.com/satokaz/vscode-markdown-mock.git
+$ cd vscode-markdown-mock
+$ npm install
+$ code .
+```
 - vscode に組み込まれている markdown extension を上書きします
-- Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです
+- Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです(変更点はこれだけ)
 
 # 切り出し方
 
