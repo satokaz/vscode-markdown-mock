@@ -1,14 +1,21 @@
 
+# これは何？
+
+- vscode の source tree から Markdown Extension を切り出したものです
+- 勉強用途やオレオレ Markdown プレビューなどを作成する場合に参考になります
+- clone して、npm install を実行後、F5 キーを押せばすぐに動かすことができます(できるはず)
+- vscode に組み込まれている markdown extension を上書きします
+- Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです
+
+# 切り出し方
+
+- vscode を clone
 - extension/markdown を適当な場所にコピー
 - vscode で開く
 - .gitignore の作成
 - .vscodeignore の作成
 - Git リポジトリの初期化
 
-## extension.js の編集
-
-- telemetryReporter 関連をつぶす
-- IPackageInfo 関連をつぶす 
 
 ## package.json の編集
 - package.json の aiKey を削除
@@ -25,7 +32,7 @@
 - 書き替え
 
 ```json
-  "name": "vscode-markdown",
+  "name": "vscode-markdown-mock",
   "displayName": "VS Code Markdown",
   "description": "Markdown for VS Code",
   "version": "0.2.0",
@@ -56,13 +63,21 @@
 
 ## Reload Windows
 
+## extension.js の編集
+
+- telemetryReporter 関連をつぶす
+- IPackageInfo 関連をつぶす 
 
 ## Debug: Open launch.json を実行
 
 - .vscode/launch.json が作成される
-- 構成の追加から、「{} VS Code 拡張機能の開発」を選択する。下記が追加される。
+- launch.json の中身を下記と入れ替える
 
 ```json
+{
+  "version": "0.2.0",
+  "configurations": [
+
     {
       "type": "extensionHost",
       "request": "launch",
@@ -71,13 +86,17 @@
       "args": [
         "--extensionDevelopmentPath=${workspaceRoot}"
       ],
+      "stopOnEntry": false,
       "sourceMaps": true,
       "outFiles": [
-        "${workspaceRoot}/out/**/*.js"
+        "${workspaceRoot}/out"
       ],
       "preLaunchTask": "npm"
-    },
+    }
+  ]
+}
 ```
+
 ## task runner の構成
 
 - `Tasks: Configure Task Runner` を実行
@@ -108,4 +127,5 @@
 }
 ```
 
-- デバッグビューに移動するか
+- F5 キーでデバッグ開始
+- あとは、vsce をインストールして package が作れます
