@@ -74,7 +74,7 @@ $ code .
 
 ## Reload Windows
 
-## extension.js の編集
+## extension.ts の編集
 
 - telemetryReporter 関連をつぶす
 - IPackageInfo 関連をつぶす 
