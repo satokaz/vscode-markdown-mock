@@ -12,13 +12,18 @@ import { MarkdownEngine } from './markdownEngine';
 import DocumentLinkProvider from './documentLinkProvider';
 import MDDocumentSymbolProvider from './documentSymbolProvider';
 import { MDDocumentContentProvider, getMarkdownUri, isMarkdownFile } from './previewContentProvider';
-import { TableOfContentProvider } from './tableOfContentsProvider';
+import { TableOfContentsProvider } from './tableOfContentsProvider';
 
 // interface IPackageInfo {
 // 	name: string;
 // 	version: string;
 // 	aiKey: string;
 // }
+
+interface OpenDocumentLinkArgs {
+	path: string;
+	fragment: string;
+}
 
 // var telemetryReporter: TelemetryReporter | null;
 
@@ -44,7 +49,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(vscode.commands.registerCommand('_markdown.revealLine', (uri, line) => {
 		const sourceUri = vscode.Uri.parse(decodeURIComponent(uri));
 		vscode.window.visibleTextEditors
-			.filter(editor => editor.document.uri.path === sourceUri.path)
+			.filter(editor => isMarkdownFile(editor.document) && editor.document.uri.fsPath === sourceUri.fsPath)
 			.forEach(editor => {
 				const sourceLine = Math.floor(line);
 				const text = editor.document.getText(new vscode.Range(sourceLine, 0, sourceLine + 1, 0));
@@ -70,10 +75,10 @@ export function activate(context: vscode.ExtensionContext) {
 			});
 	}));
 
-	context.subscriptions.push(vscode.commands.registerCommand('_markdown.openDocumentLink', (args) => {
+	context.subscriptions.push(vscode.commands.registerCommand('_markdown.openDocumentLink', (args: OpenDocumentLinkArgs) => {
 		const tryRevealLine = (editor: vscode.TextEditor) => {
 			if (editor && args.fragment) {
-				const toc = new TableOfContentProvider(engine, editor.document);
+				const toc = new TableOfContentsProvider(engine, editor.document);
 				const line = toc.lookup(args.fragment);
 				if (!isNaN(line)) {
 					return editor.revealRange(
@@ -82,7 +87,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 			}
 		};
-		if (vscode.window.activeTextEditor && vscode.window.activeTextEditor.document.uri.path === args.path) {
+		if (vscode.window.activeTextEditor && isMarkdownFile(vscode.window.activeTextEditor.document) && vscode.window.activeTextEditor.document.uri.fsPath === args.path) {
 			return tryRevealLine(vscode.window.activeTextEditor);
 		} else {
 			const resource = vscode.Uri.file(args.path);
