@@ -20,17 +20,15 @@ export function getMarkdownUri(uri: vscode.Uri) {
 
 export class MDDocumentContentProvider implements vscode.TextDocumentContentProvider {
 	private _onDidChange = new vscode.EventEmitter<vscode.Uri>();
-	private _waiting: boolean;
+	private _waiting: boolean = false;
 
 	constructor(
 		private engine: MarkdownEngine,
 		private context: vscode.ExtensionContext
-	) {
-		this._waiting = false;
-	}
+	) { }
 
 	private getMediaPath(mediaFile: string): string {
-		return this.context.asAbsolutePath(path.join('media', mediaFile));
+		return vscode.Uri.file(this.context.asAbsolutePath(path.join('media', mediaFile))).toString();
 	}
 
 	private isAbsolute(p: string): boolean {
@@ -38,27 +36,28 @@ export class MDDocumentContentProvider implements vscode.TextDocumentContentProv
 	}
 
 	private fixHref(resource: vscode.Uri, href: string): string {
-		if (href) {
-			// Use href if it is already an URL
-			if (vscode.Uri.parse(href).scheme) {
-				return href;
-			}
-
-			// Use href as file URI if it is absolute
-			if (this.isAbsolute(href)) {
-				return vscode.Uri.file(href).toString();
-			}
-
-			// use a workspace relative path if there is a workspace
-			let rootPath = vscode.workspace.rootPath;
-			if (rootPath) {
-				return vscode.Uri.file(path.join(rootPath, href)).toString();
-			}
-
-			// otherwise look relative to the markdown file
-			return vscode.Uri.file(path.join(path.dirname(resource.fsPath), href)).toString();
+		if (!href) {
+			return href;
 		}
-		return href;
+
+		// Use href if it is already an URL
+		if (vscode.Uri.parse(href).scheme) {
+			return href;
+		}
+
+		// Use href as file URI if it is absolute
+		if (this.isAbsolute(href)) {
+			return vscode.Uri.file(href).toString();
+		}
+
+		// use a workspace relative path if there is a workspace
+		let rootPath = vscode.workspace.rootPath;
+		if (rootPath) {
+			return vscode.Uri.file(path.join(rootPath, href)).toString();
+		}
+
+		// otherwise look relative to the markdown file
+		return vscode.Uri.file(path.join(path.dirname(resource.fsPath), href)).toString();
 	}
 
 	private computeCustomStyleSheetIncludes(uri: vscode.Uri): string {
@@ -102,7 +101,6 @@ export class MDDocumentContentProvider implements vscode.TextDocumentContentProv
 			}
 
 			const body = this.engine.render(sourceUri, previewFrontMatter === 'hide', document.getText());
-
 			return `<!DOCTYPE html>
 				<html>
 				<head>
@@ -112,18 +110,18 @@ export class MDDocumentContentProvider implements vscode.TextDocumentContentProv
 					${this.getSettingsOverrideStyles()}
 					${this.computeCustomStyleSheetIncludes(uri)}
 					<base href="${document.uri.toString(true)}">
-				</head>
-				<body class="${scrollBeyondLastLine ? 'scrollBeyondLastLine' : ''} ${wordWrap ? 'wordWrap' : ''} ${!!markdownConfig.get('preview.markEditorSelection') ? 'showEditorSelection' : ''}">
-					${body}
 					<script>
 						window.initialData = {
-							source: "${encodeURIComponent(sourceUri.scheme + '://' + sourceUri.path)}",
+							source: "${encodeURIComponent(sourceUri.toString(true))}",
 							line: ${initialLine},
 							scrollPreviewWithEditorSelection: ${!!markdownConfig.get('preview.scrollPreviewWithEditorSelection', true)},
 							scrollEditorWithPreview: ${!!markdownConfig.get('preview.scrollEditorWithPreview', true)},
 							doubleClickToSwitchToEditor: ${!!markdownConfig.get('preview.doubleClickToSwitchToEditor', true)},
 						};
 					</script>
+				</head>
+				<body class="${scrollBeyondLastLine ? 'scrollBeyondLastLine' : ''} ${wordWrap ? 'wordWrap' : ''} ${!!markdownConfig.get('preview.markEditorSelection') ? 'showEditorSelection' : ''}">
+					${body}
 					<script src="${this.getMediaPath('main.js')}"></script>
 				</body>
 				</html>`;
