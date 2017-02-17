@@ -12,7 +12,11 @@ $ npm install
 $ code .
 ```
 - vscode に組み込まれている markdown extension を上書きします
-- Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです(変更点はこれだけ)
+- Preview の tab head には 🌸 のアイコンがつくので、少しわかりやすいです
+- こちらの branch は、下記 2 つのコマンドを追加
+  - 🌸 Markdown: 🌸 show HTML: Output Chnnel (出力) に HTML レンダリングを出力 
+  - 🌸 Markdown: 🌸 create HTML File: ファイルに HTML を保存してブラウザで開く
+
 
 # Changelog
 
