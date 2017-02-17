@@ -42,6 +42,11 @@
       "from": "mdurl@>=1.0.1 <1.1.0",
       "resolved": "https://registry.npmjs.org/mdurl/-/mdurl-1.0.1.tgz"
     },
+    "open": {
+      "version": "0.0.5",
+      "from": "open@latest",
+      "resolved": "https://registry.npmjs.org/open/-/open-0.0.5.tgz"
+    },
     "sprintf-js": {
       "version": "1.0.3",
       "from": "sprintf-js@>=1.0.2 <1.1.0",

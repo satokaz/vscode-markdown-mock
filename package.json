@@ -15,7 +15,9 @@
     "onLanguage:markdown",
     "onCommand:markdown.showPreview",
     "onCommand:markdown.showPreviewToSide",
-    "onCommand:markdown.showSource"
+    "onCommand:markdown.showSource",
+    "onCommand:markdown.showHtml",
+    "onCommand:markdown.createHtml"
   ],
   "contributes": {
     "languages": [
@@ -68,6 +70,16 @@
           "light": "./media/ViewSource.svg",
           "dark": "./media/ViewSource_inverse.svg"
         }
+      },
+      {
+        "command": "markdown.showHtml",
+        "title": "%markdown.showHtml.title%",
+        "category": "🌸 Markdown"
+      },
+      {
+        "command": "markdown.createHtml",
+        "title": "%markdown.createHtml.title%",
+        "category": "🌸 Markdown"
       }
     ],
     "menus": {
@@ -178,6 +190,7 @@
     "highlight.js": "^9.3.0",
     "markdown-it": "^8.2.2",
     "markdown-it-named-headers": "0.0.4",
+    "open": "0.0.5",
     "vscode-extension-telemetry": "^0.0.5"
   },
   "devDependencies": {

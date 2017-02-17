@@ -14,6 +14,9 @@ import MDDocumentSymbolProvider from './documentSymbolProvider';
 import { MDDocumentContentProvider, getMarkdownUri, isMarkdownFile } from './previewContentProvider';
 import { TableOfContentsProvider } from './tableOfContentsProvider';
 
+import * as fs from 'fs';
+var open = require('open');
+
 // interface IPackageInfo {
 // 	name: string;
 // 	version: string;
@@ -129,6 +132,21 @@ export function activate(context: vscode.ExtensionContext) {
 				});
 		}
 	}));
+
+	context.subscriptions.push(vscode.commands.registerCommand('markdown.showHtml', () => {
+		let buf: any = contentProvider.provideTextDocumentContent(getMarkdownUri(vscode.window.activeTextEditor!.document.uri));
+		let fsPath: string = vscode.window.activeTextEditor!.document.uri.fsPath;
+		let MDOutputChannel = vscode.window.createOutputChannel('Markdown: ' + fsPath);
+		MDOutputChannel.clear();
+		MDOutputChannel.show(true);	
+		MDOutputChannel.append(buf["_value"].toString() + '\n');
+	}));
+
+	context.subscriptions.push(vscode.commands.registerCommand('markdown.createHtml', () => {
+		let buf = contentProvider.provideTextDocumentContent(getMarkdownUri(vscode.window.activeTextEditor!.document.uri));
+		let fsPath = vscode.window.activeTextEditor!.document.uri.fsPath;
+		createHtml(buf, fsPath);
+	}));
 }
 
 
@@ -214,4 +232,30 @@ function showSource(mdUri: vscode.Uri) {
 // 	return null;
 // }
 
+// createHtml
+function createHtml(buf: any, fsPath: string) {
+	let baseFileName = path.basename(fsPath, '.md');
+	let saveDir = path.dirname(fsPath);
+	let inSaveDir = "";
+	let htmlFile = path.join(inSaveDir, baseFileName + ".html");
+	// debug
+	// console.log("fsPath: ", fsPath);
+	// console.log("baseFileName: ", baseFileName);
+	// console.log("saveDdir: ", saveDir);
+	// console.log(buf["_value"]);
 
+	vscode.window.showInputBox({prompt: "Enter the Output directory. default: " + saveDir}).then((inSaveDir) => {
+		if (!inSaveDir) {
+			console.log("no input");
+			inSaveDir = saveDir;
+		}
+		console.log("inSaveDir: ", inSaveDir);
+		fs.writeFile(path.join(inSaveDir, baseFileName + ".html"), buf["_value"], 'utf8', (err) => {
+			if (err) throw err;
+				console.log('It\'s saved!: ', htmlFile);
+				vscode.window.showInformationMessage("Created a " + htmlFile);
+			});
+			open(path.join(inSaveDir, baseFileName + ".html"));
+		});
+	return true;
+}
