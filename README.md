@@ -21,12 +21,21 @@ $ code .
 # 切り出し方
 
 - vscode を clone
-- extension/markdown を適当な場所にコピー
+- extension/markdown を適当な場所するか、filter-branch を使って、新しいリポジトリとして切り出す。お好きなほうで。filter-branch を使うことで、hash 値が書き換わってしまうが commit log を残せる。(が、容量を必要とする)
+
+```bash
+$ git filter-branch --subdirectory-filter extensions/markdown HEAD
+
+// リポジトリを掃除
+$ git gc --aggressive
+$ git prune
+$ rm -fr .git/refs/original
+```
+
 - vscode で開く
 - .gitignore の作成
 - .vscodeignore の作成
 - Git リポジトリの初期化
-
 
 ## package.json の編集
 - package.json の aiKey を削除
@@ -40,7 +49,7 @@ $ code .
   },
 ```
 
-- 書き替え
+<!-- - 書き替え
 
 ```json
   "name": "vscode-markdown-mock",
@@ -48,7 +57,7 @@ $ code .
   "description": "Markdown for VS Code",
   "version": "0.2.0",
   "publisher": "Microsoft",
-```
+``` -->
 
 
 - "engines" を ^1.9.0 に書き替え (じゃないと新しい API が使えない) 
@@ -72,7 +81,8 @@ $ code .
 - npm install
 
 
-## Reload Windows
+## Reload Window
+- コマンドパレットから Reload Window コマンドを実行する
 
 ## extension.ts の編集
 
