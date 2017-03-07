@@ -1,3 +1,4 @@
+# Visual Studio Code に組み込まれている Markdown 拡張機能を切り出してみた
 
 # これは何？
 
@@ -16,7 +17,7 @@ $ code .
 
 # Changelog
 
-- 2017/02/16: Sync with commit [7a82ac3ff9d46fefc5b24c86777a4d0d0656d936](https://github.com/Microsoft/vscode/commit/7a82ac3ff9d46fefc5b24c86777a4d0d0656d936)
+- 2017/03/08: Sync with commit [1dd884a88a03293d406e92a43cf03bf83cb692f7](https://github.com/Microsoft/vscode/commit/1dd884a88a03293d406e92a43cf03bf83cb692f7) 
 
 # 切り出し方
 
