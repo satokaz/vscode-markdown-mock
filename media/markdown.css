@@ -11,6 +11,28 @@ body {
 	word-wrap: break-word;
 }
 
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+
 body.scrollBeyondLastLine {
 	margin-bottom: calc(100vh - 22px);
 }
@@ -149,7 +171,8 @@ body.wordWrap pre {
 	line-height: 18px;
 }
 
-code > div {
+pre:not(.hljs),
+pre.hljs code > div {
 	padding: 16px;
 	border-radius: 3px;
 	overflow: auto;
@@ -157,15 +180,18 @@ code > div {
 
 /** Theming */
 
-.vscode-light {
+.vscode-light,
+.vscode-light pre code {
 	color: rgb(30, 30, 30);
 }
 
-.vscode-dark {
+.vscode-dark,
+.vscode-dark pre code {
 	color: #DDD;
 }
 
-.vscode-high-contrast {
+.vscode-high-contrast,
+.vscode-high-contrast pre code {
 	color: white;
 }
 
@@ -177,14 +203,17 @@ code > div {
 	color: #D7BA7D;
 }
 
+.vscode-light pre:not(.hljs),
 .vscode-light code > div {
 	background-color: rgba(220, 220, 220, 0.4);
 }
 
+.vscode-dark pre:not(.hljs),
 .vscode-dark code > div {
 	background-color: rgba(10, 10, 10, 0.4);
 }
 
+.vscode-high-contrast pre:not(.hljs),
 .vscode-high-contrast code > div {
 	background-color: rgb(0, 0, 0);
 }
