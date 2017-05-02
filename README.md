@@ -17,7 +17,8 @@ $ code .
 
 # Changelog
 
-- 2017/03/08: Sync with commit [1dd884a88a03293d406e92a43cf03bf83cb692f7](https://github.com/Microsoft/vscode/commit/1dd884a88a03293d406e92a43cf03bf83cb692f7) 
+- 2017/05/03: Sync with commit [36ce3d156fc749ea9a8b9f82f87ee096020017fd](https://github.com/Microsoft/vscode/commit/36ce3d156fc749ea9a8b9f82f87ee096020017fd)
+
 
 # 切り出し方
 
@@ -61,7 +62,7 @@ $ rm -fr .git/refs/original
 ``` -->
 
 
-- "engines" を ^1.9.0 に書き替え (じゃないと新しい API が使えない) 
+- "engines" を ^1.9.0 に書き替え (じゃないと新しい API が使えない)
 
 ```json
   "engines": {
@@ -77,7 +78,7 @@ $ rm -fr .git/refs/original
 ```
 
 
-## npm install 
+## npm install
 - npm install -SD vscode
 - npm install
 
@@ -88,7 +89,7 @@ $ rm -fr .git/refs/original
 ## extension.ts の編集
 
 - telemetryReporter 関連をつぶす
-- IPackageInfo 関連をつぶす 
+- IPackageInfo 関連をつぶす
 
 ## Debug: Open launch.json を実行
 
@@ -124,7 +125,7 @@ $ rm -fr .git/refs/original
 - `Tasks: Configure Task Runner` を実行
 - npm を選択して、中身を下記に入れ替える
 
-```json 
+```json
 // A task runner that calls a custom npm script that compiles the extension.
 {
     "version": "0.1.0",
